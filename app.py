@@ -46,8 +46,9 @@ if "access_token" in st.session_state:
     att_date = st.date_input("Attendance Date", value=datetime.today()).strftime("%Y-%m-%d")
 
     # School selection (hardcoded for now, can be dynamic)
-    schools = ["899020"]
-    schoolid = st.selectbox("Select School", schools)
+    # schools = ["899020"]
+    # schoolid = st.selectbox("Select School", schools)
+    schoolid = st.number_input("Enter School ID", min_value=1, step=1, format="%d")
 
     # Fetch attendance codes
     if st.button("Fetch Attendance Codes") or "attendance_codes" not in st.session_state:
