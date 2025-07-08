@@ -44,13 +44,13 @@ class PowerQuery:
                 "name": "attendance",
                 "tables": {
                     "attendance": {
-                        "att_mode_code": "ATT_ModeDaily",
-                        "att_date": att_date,
-                        "schoolid": schoolid,
+                        "att_mode_code": str("ATT_ModeDaily"),
+                        "att_date": str(att_date),
+                        "schoolid": str(schoolid),
                         "studentid": str(studentid),
-                        "yearid": yearid,
-                        "att_comment": att_comment,
-                        "attendance_codeid": attendance_codeid
+                        "yearid": str(yearid),
+                        "att_comment": str(att_comment),
+                        "attendance_codeid": str(attendance_codeid)
                     }
                 }
             }]
@@ -109,17 +109,21 @@ def submit_attendance(access_token, endpoint, att_date, schoolid, yearid, attend
             response.raise_for_status()
             data = response.json()
             insert_count = data.get("insert_count", 0)
-            if insert_count > 0:
+            update_count = data.get("update_count", 0)
+            if insert_count > 0 or update_count > 0:
+                action = "inserted" if insert_count > 0 else "updated"
                 result = {
                     "studentid": studentid,
                     "status": "success",
+                    "action": action,
                     "insert_count": insert_count,
+                    "update_count": update_count,
                     "details": [
                         {"id": item['success_message'].get('id'), "status": item['status']} for item in data.get("result", [])
                     ]
                 }
             else:
-                result = {"studentid": studentid, "status": "failed", "reason": "No records inserted"}
+                result = {"studentid": studentid, "status": "failed", "reason": "No records inserted or updated"}
         except requests.RequestException as e:
             result = {"studentid": studentid, "status": "failed", "reason": str(e)}
         except Exception as ex:

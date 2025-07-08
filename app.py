@@ -126,7 +126,7 @@ if "access_token" in st.session_state:
             execution_complete = True
             for res in results:
                 if res["status"] == "success":
-                    log_lines.append(f"✅ Student ID {res['studentid']}: {res['insert_count']} record(s) inserted.\n")
+                    log_lines.append(f"✅ Student ID {res['studentid']}: {res['insert_count'] if res['action']=='inserted' else res['update_count']} record(s) {res['action']}.\n")
                     for detail in res.get("details", []):
                         log_lines.append(f"    - ID: {detail['id']}, Status: {detail['status']}\n")
                 else:
