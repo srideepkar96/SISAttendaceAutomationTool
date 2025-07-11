@@ -24,8 +24,8 @@ This tool allows you to update daily attendance for students in PowerSchool SIS 
 def get_auth():
     st.sidebar.header("Authentication")
     endpoint = st.sidebar.text_input("Server Name", value="sisintstage11")
-    clientid = st.sidebar.text_input("Client ID", value="83b8d802-a514-4c8e-8fa8-3d5f31b77850")
-    clientsecret = st.sidebar.text_input("Client Secret", value="35d2e648-7614-4779-9509-daef4c206438", type="password")
+    clientid = st.sidebar.text_input("Client ID", value="********-****-****-****-************")
+    clientsecret = st.sidebar.text_input("Client Secret", value="", type="password")
     endpoint_url = f"https://{endpoint}.powerschool.com/" if not endpoint.startswith("http") else endpoint
     if st.sidebar.button("Authenticate"):
         try:
